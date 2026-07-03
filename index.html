@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supermercado | Ofertas de la semana</title>
+  <style>
+    :root {
+      --paper: #ffffff;
+      --ink: #111111;
+      --muted: #737373;
+      --line: #ececec;
+      --surface: #fafafa;
+      --accent: #d71920;
+      --accent-soft: #fff1f2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+        Arial, sans-serif;
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      background: var(--paper);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.88);
+      border-bottom: 1px solid rgba(236, 236, 236, 0.75);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      width: min(100% - 2rem, 1180px);
+      height: 4.25rem;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.98rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .logo-mark {
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 0.45rem var(--accent-soft);
+    }
+
+    .hero {
+      width: min(100% - 2rem, 1180px);
+      min-height: 62svh;
+      margin: 0 auto;
+      padding: 5.6rem 0 4.4rem;
+      display: grid;
+      align-content: center;
+    }
+
+    .hero h1 {
+      max-width: 10ch;
+      margin: 0;
+      font-size: 3.6rem;
+      font-weight: 760;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .hero-subtitle {
+      max-width: 25rem;
+      margin: 1.4rem 0 0;
+      font-size: 1.28rem;
+      font-weight: 650;
+    }
+
+    .hero-copy {
+      max-width: 26rem;
+      margin: 0.7rem 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .products-section {
+      border-top: 1px solid var(--line);
+      padding: 3.75rem 0 5.2rem;
+    }
+
+    .section-inner {
+      width: min(100% - 2rem, 1180px);
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 1.65rem;
+      font-weight: 720;
+      letter-spacing: 0;
+    }
+
+    .section-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .product-card {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 0.9rem;
+      min-width: 0;
+      min-height: 15.8rem;
+      padding: 0.7rem 0.7rem 0.85rem;
+      background: var(--paper);
+      border: 1px solid rgba(17, 17, 17, 0.06);
+      border-radius: 8px;
+      box-shadow: 0 14px 34px rgba(17, 17, 17, 0.06);
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #f5efe8;
+    }
+
+    .product-name {
+      min-width: 0;
+      margin: 0;
+      color: var(--ink);
+      font-size: 0.96rem;
+      font-weight: 650;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .product-price {
+      margin: 0;
+      color: var(--accent);
+      font-size: 1.28rem;
+      font-weight: 760;
+      line-height: 1;
+    }
+
+    .contact {
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      padding: 3.4rem 0 2.4rem;
+    }
+
+    .contact-grid {
+      width: min(100% - 2rem, 1180px);
+      margin: 0 auto;
+      display: grid;
+      gap: 1.15rem;
+    }
+
+    .contact-item {
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .contact-label {
+      margin: 0 0 0.2rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .contact-value {
+      margin: 0;
+      color: var(--ink);
+      font-size: 1.08rem;
+      font-weight: 650;
+      word-break: break-word;
+    }
+
+    .contact-value a {
+      color: var(--accent);
+    }
+
+    .support {
+      width: min(100% - 2rem, 1180px);
+      margin: 1.8rem auto 0;
+      color: #969696;
+      font-size: 0.78rem;
+      line-height: 1.8;
+    }
+
+    .support p {
+      margin: 0;
+    }
+
+    @media (min-width: 700px) {
+      .header-inner {
+        height: 4.75rem;
+      }
+
+      .hero {
+        min-height: 64svh;
+        padding: 6.6rem 0 5.2rem;
+      }
+
+      .hero h1 {
+        max-width: 14ch;
+        font-size: 5.4rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.5rem;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.2rem;
+      }
+
+      .product-card {
+        min-height: 19.5rem;
+        padding: 0.85rem 0.85rem 1rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 2.25rem;
+      }
+
+      .contact-item {
+        border-bottom: 0;
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .hero h1 {
+        font-size: 7.3rem;
+      }
+
+      .products-section {
+        padding-top: 4.6rem;
+      }
+
+      .products-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1.35rem;
+      }
+
+      .product-card {
+        min-height: 21rem;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .hero h1 {
+        font-size: 3.15rem;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-note {
+        margin-top: 0.35rem;
+        white-space: normal;
+      }
+
+      .products-grid {
+        gap: 0.8rem;
+      }
+
+      .product-card {
+        min-height: 14.2rem;
+        padding: 0.6rem;
+      }
+
+      .product-name {
+        font-size: 0.9rem;
+      }
+
+      .product-price {
+        font-size: 1.12rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="site-header" aria-label="Encabezado del sitio">
+      <div class="header-inner">
+        <a class="logo" href="#" aria-label="Inicio de Supermercado">
+          <span class="logo-mark" aria-hidden="true"></span>
+          <span>Supermercado</span>
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <h1 id="hero-title">Fresco, Diario, Cercano</h1>
+        <p class="hero-subtitle">Ofertas seleccionadas para esta semana.</p>
+        <p class="hero-copy">Precios especiales para tu compra diaria.</p>
+      </section>
+
+      <section class="products-section" aria-labelledby="products-title">
+        <div class="section-inner">
+          <div class="section-heading">
+            <h2 id="products-title">Ofertas de la Semana</h2>
+            <p class="section-note">24 productos destacados</p>
+          </div>
+
+          <div class="products-grid">
+            <article class="product-card">
+              <img class="product-image" src="images/foto1.jpg" alt="7UP Sin Azúcar 2.25L">
+              <h3 class="product-name">7UP Sin Azúcar 2.25L</h3>
+              <p class="product-price">$2.000</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto2.jpg" alt="Aquarius Manzana 2.25L">
+              <h3 class="product-name">Aquarius Manzana 2.25L</h3>
+              <p class="product-price">$2.350</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto3.jpg" alt="Aquarius Pera 2.25L">
+              <h3 class="product-name">Aquarius Pera 2.25L</h3>
+              <p class="product-price">$2.350</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto4.jpg" alt="Aquarius Pomelo 2.25L">
+              <h3 class="product-name">Aquarius Pomelo 2.25L</h3>
+              <p class="product-price">$2.350</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto5.jpg" alt="Arlistán Suave 170g">
+              <h3 class="product-name">Arlistán Suave 170g</h3>
+              <p class="product-price">$6.700</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto6.jpg" alt="Arvejas Marolio">
+              <h3 class="product-name">Arvejas Marolio</h3>
+              <p class="product-price">$500</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto7.jpg" alt="Bizcocho Dulce 200g">
+              <h3 class="product-name">Bizcocho Dulce 200g</h3>
+              <p class="product-price">$1.200</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto8.jpg" alt="Bizcocho Salado 200g">
+              <h3 class="product-name">Bizcocho Salado 200g</h3>
+              <p class="product-price">$1.200</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto9.jpg" alt="Café Instantáneo La Virginia 50g">
+              <h3 class="product-name">Café Instantáneo La Virginia 50g</h3>
+              <p class="product-price">$2.200</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto10.jpg" alt="Café Molido Morenita Intenso 250g">
+              <h3 class="product-name">Café Molido Morenita Intenso 250g</h3>
+              <p class="product-price">$5.500</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto11.jpg" alt="Crackers Cerealitas 212g">
+              <h3 class="product-name">Crackers Cerealitas 212g</h3>
+              <p class="product-price">$1.500</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto12.jpg" alt="Durazno La Colina 820g">
+              <h3 class="product-name">Durazno La Colina 820g</h3>
+              <p class="product-price">$2.100</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto13.jpg" alt="Gancia Sin Alcohol Lata x6">
+              <h3 class="product-name">Gancia Sin Alcohol Lata x6</h3>
+              <p class="product-price">$8.000</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto14.jpg" alt="Leche Entera La Serenísima 1L">
+              <h3 class="product-name">Leche Entera La Serenísima 1L</h3>
+              <p class="product-price">$2.200</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto15.jpg" alt="Leche Liviana La Serenísima 1L">
+              <h3 class="product-name">Leche Liviana La Serenísima 1L</h3>
+              <p class="product-price">$2.200</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto16.jpg" alt="Leche Sin Lactosa Las Tres Niñas 1L">
+              <h3 class="product-name">Leche Sin Lactosa Las Tres Niñas 1L</h3>
+              <p class="product-price">$2.300</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto17.jpg" alt="Mate Cocido Taragui x40">
+              <h3 class="product-name">Mate Cocido Taragui x40</h3>
+              <p class="product-price">$2.000</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto18.jpg" alt="Pepsi Black 2L">
+              <h3 class="product-name">Pepsi Black 2L</h3>
+              <p class="product-price">$2.000</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto19.jpg" alt="Puré de Tomate Molto 520g">
+              <h3 class="product-name">Puré de Tomate Molto 520g</h3>
+              <p class="product-price">$700</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto20.jpg" alt="Quilmes Clásica Lata 473ml x6">
+              <h3 class="product-name">Quilmes Clásica Lata 473ml x6</h3>
+              <p class="product-price">$9.500</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto21.jpg" alt="Talitas 140g">
+              <h3 class="product-name">Talitas 140g</h3>
+              <p class="product-price">$1.500</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto22.jpg" alt="Té Taragui x50">
+              <h3 class="product-name">Té Taragui x50</h3>
+              <p class="product-price">$1.300</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto23.jpg" alt="Yerba Mañanita 500g">
+              <h3 class="product-name">Yerba Mañanita 500g</h3>
+              <p class="product-price">$1.900</p>
+            </article>
+            <article class="product-card">
+              <img class="product-image" src="images/foto24.jpg" alt="Yerba Playadito Suave 1kg">
+              <h3 class="product-name">Yerba Playadito Suave 1kg</h3>
+              <p class="product-price">$4.100</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="contact">
+      <div class="contact-grid" aria-label="Datos de contacto">
+        <div class="contact-item">
+          <p class="contact-label">WhatsApp</p>
+          <p class="contact-value"><a href="https://wa.me/0000000000">+00 0000 0000</a></p>
+        </div>
+        <div class="contact-item">
+          <p class="contact-label">Dirección</p>
+          <p class="contact-value"> Buenos Aires</p>
+        </div>
+        <div class="contact-item">
+          <p class="contact-label">Horario</p>
+          <p class="contact-value">Lunes a domingo · 8:00 a 21:00</p>
+        </div>
+      </div>
+      <div class="support">
+        <p>技术支持（微信号）：Franciscolll</p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
